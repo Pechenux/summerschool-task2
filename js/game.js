@@ -4,8 +4,8 @@ const cardSuits = ['♠️', '♣️', '♥️', '♦️'];
 let cards = document.querySelectorAll('.card');
 let cardsValues = []
 let openedCards = [];
-var toClose = []
 
+var toClose = []
 let timeouts = []
 let firstGame = true;
 
