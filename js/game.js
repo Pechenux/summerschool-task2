@@ -4,14 +4,13 @@ const cardSuits = ['♠️', '♣️', '♥️', '♦️'];
 let cards = document.querySelectorAll('.card');
 let cardsValues = []
 let openedCards = [];
+var toClose = []
 
 let timeouts = []
 let firstGame = true;
-var going = false;
 
 const maxAttempts = 5;
 let remainingAttempts = maxAttempts;
-let firstCard = null;
 
 function openCard(cardId) {
     let card = document.getElementById(cardId);
@@ -40,16 +39,19 @@ function openEverything() {
 }
 
 function updateGame(cardId) {
-    let toCloseFirst = cardId;
-    let toCloseSecond = firstCard;
+    toClose.push(cardId);
+
     openCard(cardId);
 
-    if (firstCard) { // if there is an open card
-        going = true;
-        if (cardsValues[cardId].num == cardsValues[firstCard].num &&
-            cardsValues[cardId].suit == cardsValues[firstCard].suit) { // if cards are equal
-            openedCards.push(cardId);
+    while (toClose.length >= 2) {
+        let firstCard = toClose.shift();
+        let secondCard = toClose.shift();
+
+        if (cardsValues[firstCard].num == cardsValues[secondCard].num &&
+            cardsValues[firstCard].suit == cardsValues[secondCard].suit) { // if cards are equal
+            toClose.length = 0;
             openedCards.push(firstCard);
+            openedCards.push(secondCard);
 
             if (openedCards.length == cardsValues.length) {
                 setTimeout(() => { alert("You win!"); setupgame(); }, 800);
@@ -63,29 +65,22 @@ function updateGame(cardId) {
                 openEverything();
                 return;
             } else {
-                timeouts.push(setTimeout((firstCard, cardId) => {
-                    going = false;
-                    closeCard(firstCard);
-                    closeCard(cardId);
-                }, 1000, toCloseFirst, toCloseSecond));
-                
+                timeouts.push(setTimeout((a, b) => {
+                    closeCard(a);
+                    closeCard(b);
+                }, 1000, firstCard, secondCard));
+
             }
-            
-            
-            
         }
-
-        firstCard = null;
-        return;
     }
-
-    firstCard = cardId;
 }
 
 
 for (let card of cards) {
     card.addEventListener('click', () => {
-        if (card.className.includes('up')/* || going*/) {
+        console.log(toClose);
+
+        if (card.className.includes('up')) {
             return;
         }
 
@@ -133,7 +128,6 @@ function setupgame() {
                 }
             }
         }
-        going = false;
     }
 
     if (firstGame) {
