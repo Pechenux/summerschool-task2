@@ -7,6 +7,11 @@ body {
     min-width: 600px;
 }
 
+#restart:hover {
+    color: green;
+    cursor: pointer
+}
+
 .help {
     margin-left: auto;
     margin-right: auto;
