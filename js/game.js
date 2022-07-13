@@ -12,6 +12,13 @@ let firstGame = true;
 const maxAttempts = 5;
 let remainingAttempts = maxAttempts;
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 function openCard(cardId) {
     let card = document.getElementById(cardId);
     if (card) {
@@ -109,7 +116,8 @@ function setupgame() {
         cardsValues.push({ 'num': number, 'suit': suit });
     }
 
-    cardsValues.sort(() => Math.random() - 0.5); // shuffling deck
+    // cardsValues.sort(() => Math.random() - 0.5); // shuffling deck
+    shuffle(cardsValues);
 
 
     for (let card of cards) {
