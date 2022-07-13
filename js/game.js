@@ -6,9 +6,10 @@ let cardsValues = []
 let openedCards = [];
 
 let timeouts = []
+let firstGame = true;
+let going = false;
 
 let remainingAttempts = 3;
-let firstGame = 1;
 let firstCard = null;
 
 function openCard(cardId) {
@@ -41,6 +42,7 @@ function updateGame(cardId) {
     openCard(cardId);
 
     if (firstCard) { // if there is an open card
+        going = true;
         if (cardsValues[cardId].num == cardsValues[firstCard].num &&
             cardsValues[cardId].suit == cardsValues[firstCard].suit) { // if cards are equal
             openedCards.push(cardId);
@@ -54,6 +56,7 @@ function updateGame(cardId) {
                 return;
             } else {
                 timeouts.push(setTimeout((firstCard, cardId) => {
+                    going = false;
                     closeCard(firstCard);
                     closeCard(cardId);
                 }, 1000, firstCard, cardId));
@@ -73,7 +76,7 @@ function updateGame(cardId) {
 
 for (let card of cards) {
     card.addEventListener('click', () => {
-        if (card.className.includes('up')) {
+        if (card.className.includes('up') || going) {
             return;
         }
 
@@ -123,11 +126,11 @@ function setupgame() {
         }
     }
 
-    if (firstGame == 0) {
+    if (firstGame) {
         setTimeout(palceValues, 800); //800
     } else {
         palceValues();
-        firstGame = 0;
+        firstGame = false;
     }
 }
 
