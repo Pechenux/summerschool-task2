@@ -7,9 +7,10 @@ let openedCards = [];
 
 let timeouts = []
 let firstGame = true;
-let going = false;
+var going = false;
 
-let remainingAttempts = 3;
+const maxAttempts = 5;
+let remainingAttempts = maxAttempts;
 let firstCard = null;
 
 function openCard(cardId) {
@@ -39,6 +40,8 @@ function openEverything() {
 }
 
 function updateGame(cardId) {
+    let toCloseFirst = cardId;
+    let toCloseSecond = firstCard;
     openCard(cardId);
 
     if (firstCard) { // if there is an open card
@@ -47,6 +50,11 @@ function updateGame(cardId) {
             cardsValues[cardId].suit == cardsValues[firstCard].suit) { // if cards are equal
             openedCards.push(cardId);
             openedCards.push(firstCard);
+
+            if (openedCards.length == cardsValues.length) {
+                setTimeout(() => { alert("You win!"); setupgame(); }, 800);
+                return;
+            }
         } else {// if cards are not equal 
             remainingAttempts--;
             document.getElementById('attempts').textContent = remainingAttempts;
@@ -59,7 +67,8 @@ function updateGame(cardId) {
                     going = false;
                     closeCard(firstCard);
                     closeCard(cardId);
-                }, 1000, firstCard, cardId));
+                }, 1000, toCloseFirst, toCloseSecond));
+                
             }
             
             
@@ -76,7 +85,7 @@ function updateGame(cardId) {
 
 for (let card of cards) {
     card.addEventListener('click', () => {
-        if (card.className.includes('up') || going) {
+        if (card.className.includes('up')/* || going*/) {
             return;
         }
 
@@ -85,7 +94,7 @@ for (let card of cards) {
 }
 
 function setupgame() {
-    remainingAttempts = 3;
+    remainingAttempts = maxAttempts;
     document.getElementById('attempts').textContent = remainingAttempts;
     cardsValues.length = 0; // emptying deck
 
@@ -124,6 +133,7 @@ function setupgame() {
                 }
             }
         }
+        going = false;
     }
 
     if (firstGame) {
