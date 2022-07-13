@@ -2,11 +2,11 @@ const cardNumbers = ['6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const cardSuits = ['♠️', '♣️', '♥️', '♦️'];
 
 let cards = document.querySelectorAll('.card');
-let cardsValues = []
+let cardsValues = [];
 let openedCards = [];
 
-var toClose = []
-let timeouts = []
+var toClose = [];
+let timeouts = [];
 let firstGame = true;
 
 const maxAttempts = 5;
@@ -89,10 +89,12 @@ for (let card of cards) {
 }
 
 function setupgame() {
+    openedCards.length = 0;
     toClose.length = 0;
+    cardsValues.length = 0; // emptying deck
+    
     remainingAttempts = maxAttempts;
     document.getElementById('attempts').textContent = remainingAttempts;
-    cardsValues.length = 0; // emptying deck
 
     for (let i = 0; i < 6; i++) {
         let number = Math.floor(Math.random() * (13 - 6) + 6); // choosing number of the card
