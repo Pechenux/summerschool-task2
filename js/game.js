@@ -89,6 +89,7 @@ for (let card of cards) {
 }
 
 function setupgame() {
+    toClose.length = 0;
     remainingAttempts = maxAttempts;
     document.getElementById('attempts').textContent = remainingAttempts;
     cardsValues.length = 0; // emptying deck
