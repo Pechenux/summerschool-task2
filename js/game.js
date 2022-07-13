@@ -8,7 +8,7 @@ let openedCards = [];
 let timeouts = []
 
 let remainingAttempts = 3;
-
+let firstGame = 1;
 let firstCard = null;
 
 function openCard(cardId) {
@@ -31,7 +31,7 @@ function openEverything() {
     while (timeouts.length) {
         clearTimeout(timeouts.pop());
     }
-    
+
     for (let card of cards) {
         openCard(card.id);
     }
@@ -41,7 +41,6 @@ function updateGame(cardId) {
     openCard(cardId);
 
     if (firstCard) { // if there is an open card
-        console.log(firstCard)
         if (cardsValues[cardId].num == cardsValues[firstCard].num &&
             cardsValues[cardId].suit == cardsValues[firstCard].suit) { // if cards are equal
             openedCards.push(cardId);
@@ -55,8 +54,6 @@ function updateGame(cardId) {
                 return;
             } else {
                 timeouts.push(setTimeout((firstCard, cardId) => {
-                    console.log(firstCard)
-                    console.log(cardId)
                     closeCard(firstCard);
                     closeCard(cardId);
                 }, 1000, firstCard, cardId));
@@ -103,7 +100,7 @@ function setupgame() {
     }
 
     cardsValues.sort(() => Math.random() - 0.5); // shuffling deck
-    console.log(cardsValues);
+
 
     for (let card of cards) {
         if (card.className.includes('up')) {
@@ -111,19 +108,31 @@ function setupgame() {
         }
     }
 
-    for (let i = 0; i < cardsValues.length; i++) {
-        
-        let card = document.getElementById(i);
-        if (card) {
-            let number = card.getElementsByClassName('number')[0];
-            let suits = card.getElementsByClassName('suit');
+    function palceValues() {
+        for (let i = 0; i < cardsValues.length; i++) {
+            let card = document.getElementById(i);
+            if (card) {
+                let number = card.getElementsByClassName('number')[0];
+                let suits = card.getElementsByClassName('suit');
 
-            number.textContent = cardNumbers[cardsValues[i]['num'] - 6];
-            for (let suit of suits) {
-                suit.textContent = cardSuits[cardsValues[i]['suit']];
+                number.textContent = cardNumbers[cardsValues[i]['num'] - 6];
+                for (let suit of suits) {
+                    suit.textContent = cardSuits[cardsValues[i]['suit']];
+                }
             }
         }
     }
+
+    if (firstGame == 0) {
+        setTimeout(palceValues, 800); //800
+    } else {
+        palceValues();
+        firstGame = 0;
+    }
 }
+
+document.getElementById('restart').addEventListener('click', () => {
+    setupgame();
+});
 
 setupgame();

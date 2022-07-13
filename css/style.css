@@ -31,7 +31,7 @@ body {
     position: relative;
     
     width: auto;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 4.5;
 
     background-color: transparent;
 
@@ -89,6 +89,7 @@ body {
 }
 
 .upcorner {
+    font-size: larger;
     grid-column: 1;
     grid-row: 1;
 
@@ -100,6 +101,7 @@ body {
 }
 
 .downcorner {
+    font-size: larger;
     grid-column: 3;
     grid-row: 3;
 
