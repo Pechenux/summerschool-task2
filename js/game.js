@@ -102,7 +102,7 @@ function setupgame() {
         let number = Math.floor(Math.random() * (13 - 6) + 6); // choosing number of the card
         let suit = Math.floor(Math.random() * (4 - 1) + 1); // choosing suit of the card
         
-        if (cardsValues.some((e) => (e.num == number && e.suit == suit))) {
+        while (cardsValues.some((e) => (e.num == number && e.suit == suit))) {
             number = Math.floor(Math.random() * (13 - 6) + 6);
             suit = Math.floor(Math.random() * (4 - 1) + 1);
         }
