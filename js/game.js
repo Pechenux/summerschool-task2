@@ -5,6 +5,8 @@ let cards = document.querySelectorAll('.card');
 let cardsValues = []
 let openedCards = [];
 
+let timeouts = []
+
 let remainingAttempts = 3;
 
 let firstCard = null;
@@ -26,6 +28,10 @@ function closeCard(cardId) {
 }
 
 function openEverything() {
+    while (timeouts.length) {
+        clearTimeout(timeouts.pop());
+    }
+    
     for (let card of cards) {
         openCard(card.id);
     }
@@ -47,14 +53,16 @@ function updateGame(cardId) {
             if (remainingAttempts <= 0) {
                 openEverything();
                 return;
+            } else {
+                timeouts.push(setTimeout((firstCard, cardId) => {
+                    console.log(firstCard)
+                    console.log(cardId)
+                    closeCard(firstCard);
+                    closeCard(cardId);
+                }, 1000, firstCard, cardId));
             }
             
-            setTimeout((firstCard, cardId) => {
-                console.log(firstCard)
-                console.log(cardId)
-                closeCard(firstCard);
-                closeCard(cardId);
-            }, 1000, firstCard, cardId);
+            
             
         }
 

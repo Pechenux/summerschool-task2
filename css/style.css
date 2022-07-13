@@ -4,27 +4,34 @@
 
 body {
     text-align: center;
+    min-width: 600px;
 }
 
 .help {
-    display: block;
     margin-left: auto;
     margin-right: auto;
-    position: absolute;
     max-width: 80%;
 }
 
 .cardholder {
+    margin-left: auto;
+    margin-right: auto;
+    width: 25vw;
+    min-width: 400px;
+    max-width: 530px;
     justify-content: center;
     
     display: grid;
-    grid-template-columns: repeat(4, 120px);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .card {
     margin: 10px;
+
+    position: relative;
+    
     width: auto;
-    height: 160px;
+    aspect-ratio: 3 / 4;
 
     background-color: transparent;
 
